@@ -1,0 +1,5 @@
+<div>
+  <input type="text" [(ngModel)]="title" placeholder="Book's Title">
+  <input type="text" [(ngModel)]="author" placeholder="Book's Author">
+  <button [disabled]="!trimed()" (click)="addBook()">Add Book</button>
+</div>
