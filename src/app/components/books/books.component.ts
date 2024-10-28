@@ -10,19 +10,21 @@ import { Books } from '../../models/books';
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
 })
-export class BooksComponent {
+export class BooksComponent implements OnInit {
   title: string = '';
   author: string = '';
   allBooks: Books[] = [];
 
-  // ngOnInit(): void {
-  //   if (typeof localStorage !== 'undefined') {
-  //     const data = localStorage.getItem('books');
-  //     this.addBook = data ? JSON.parse(data) : [];
-  //   } else {
-  //     console.warn('localStorage is not available');
-  //   }
-  // }
+  ngOnInit(): void {
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        const data = window?.localStorage.getItem('books');
+        console.log(data, 'test');
+
+        this.allBooks = data ? JSON.parse(data) : [];
+      }
+    }, 1500);
+  }
 
   addBook() {
     if (this.trimed()) {
@@ -33,7 +35,7 @@ export class BooksComponent {
       };
 
       this.allBooks.push(inputedNames);
-      localStorage.setItem('books', JSON.stringify(this.allBooks));
+      window.localStorage.setItem('books', JSON.stringify(this.allBooks));
     }
 
     this.title = '';
@@ -42,7 +44,7 @@ export class BooksComponent {
 
   removeBook(i: number) {
     this.allBooks.splice(i, 1);
-    localStorage.setItem('books', JSON.stringify(this.allBooks));
+    window.localStorage.removeItem('books');
   }
 
   trimed() {
