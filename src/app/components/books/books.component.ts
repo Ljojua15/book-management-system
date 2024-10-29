@@ -1,12 +1,13 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Books } from '../../models/books';
+import { log } from 'console';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgFor],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
 })
@@ -16,14 +17,12 @@ export class BooksComponent implements OnInit {
   allBooks: Books[] = [];
 
   ngOnInit(): void {
-    setTimeout(() => {
-      if (typeof window !== 'undefined') {
-        const data = window?.localStorage.getItem('books');
-        console.log(data, 'test');
+    if (typeof window !== 'undefined') {
+      const data = window?.localStorage.getItem('books');
+      console.log(data, 'test');
 
-        this.allBooks = data ? JSON.parse(data) : [];
-      }
-    }, 1500);
+      this.allBooks = data ? JSON.parse(data) : [];
+    }
   }
 
   addBook() {
@@ -45,6 +44,9 @@ export class BooksComponent implements OnInit {
   removeBook(i: number) {
     this.allBooks.splice(i, 1);
     window.localStorage.removeItem('books');
+    this.allBooks.forEach((books, kh) => {
+      books.id = kh + 1;
+    });
   }
 
   trimed() {

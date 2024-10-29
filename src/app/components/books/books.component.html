@@ -3,3 +3,11 @@
   <input type="text" [(ngModel)]="author" placeholder="Book's Author">
   <button [disabled]="!trimed()" (click)="addBook()">Add Book</button>
 </div>
+<div *ngFor="let book of allBooks; let index = index">
+  <ul >
+    <li>
+      {{book.id}} - {{book.title}} - {{book.author}} <button (click)="removeBook(index)">delete</button>
+    </li>
+
+  </ul>
+</div>
